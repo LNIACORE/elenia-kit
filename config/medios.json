@@ -1,0 +1,21 @@
+{
+  "schema_version": 2,
+  "verified_on": "2026-11-01",
+  "scope": "Medios con perfil de partida verificado. No es manual de estilo ni acreditación de cada periodista. Cualquier otro medio se configura desde el onboarding con su URL oficial; el catálogo orienta, no restringe.",
+  "source_pack_status_definition": {
+    "curated": "Rutas documentales iniciales revisadas, no conectores API implementados ni verificación periodística certificada.",
+    "not_curated": "Medio catalogado; paquete de fuentes del país aún no preparado."
+  },
+  "outlets": [
+    {
+      "id": "la-nacion-ar",
+      "country_code": "AR",
+      "country_label": "Argentina",
+      "name": "LA NACION",
+      "official_url": "https://www.lanacion.com.ar/",
+      "editorial_language": "es",
+      "source_pack_status": "curated",
+      "note": "Homónimo: La Nación de Costa Rica (nacion.com) es otro medio. Desambiguar por URL o país."
+    }
+  ]
+}
