@@ -4,6 +4,8 @@ description: Extraer texto de escaneos e imágenes con OCR local y revisar visua
 ---
 # OCR local con control editorial
 
+> **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
 El reconocimiento óptico produce un borrador de lectura. El original visual sigue siendo la evidencia.
 
 ## Antes de ejecutar
@@ -34,4 +36,4 @@ Texto crudo, copia revisada si corresponde, referencia de página y registro de 
 
 ## Cuando el kit se instaló dentro de otro proyecto
 
-Los comandos anteriores parten de la raíz del checkout del kit. En un proyecto instalado, el runtime está en `.elenia-kit/`: reemplazar el prefijo `python3 scripts/elenia.py` por `python3 .elenia-kit/scripts/elenia.py`. Resolver la ruta del perfil, espacio de trabajo y modelos desde el contexto real; no crear copias redundantes para hacer funcionar un ejemplo.
+Los comandos anteriores parten de la raíz del checkout del kit. En un proyecto instalado, el runtime está en `.elenia-kit/`; en una instalación global, en `~/.elenia-kit/` (Windows: `%USERPROFILE%\.elenia-kit`). Reemplazar el prefijo `python3 scripts/elenia.py` por la ruta que corresponda, por ejemplo `python3 ~/.elenia-kit/scripts/elenia.py`. Resolver la ruta del perfil, espacio de trabajo y modelos desde el contexto real; no crear copias redundantes para hacer funcionar un ejemplo.

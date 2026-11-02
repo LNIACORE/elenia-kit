@@ -4,6 +4,8 @@ description: Configurar un asistente periodístico con perfil del periodista y d
 ---
 # Conocer a la persona, al medio y al equipo
 
+> **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
 ## Conversación inicial
 
 Pedir en un solo mensaje breve lo que no conste ya: **nombre y firma habitual; medio y URL; rol o perfil profesional; sección o temas; tono y formatos frecuentes**. Preguntar también el país si no puede deducirse de forma fiable. No pedir RAM, arquitectura, rutas de binarios, modelos ni claves API al periodista.

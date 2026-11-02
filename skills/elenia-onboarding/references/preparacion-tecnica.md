@@ -44,10 +44,26 @@ python3 scripts/elenia.py install-skills --project PROYECTO --agent codex
 
 Sustituir `codex` por `claude` u `opencode` según el agente elegido. No instalar los tres porque existan. El núcleo se copia a su ruta de descubrimiento; conservar instrucciones existentes del proyecto y revisar cualquier colisión antes de continuar. Los adaptadores no convierten las políticas del modelo en un sandbox ni garantizan paridad de herramientas.
 
+## Instalación global: Elenia disponible en cualquier consulta
+
+Sólo si el usuario la pidió o la confirma explícitamente. Desde la carpeta descomprimida del kit:
+
+```bash
+python3 scripts/elenia.py install-skills --global --agent claude
+```
+
+Sustituir `claude` por `codex` u `opencode` según el agente en uso. El kit queda en `~/.elenia-kit/` y las skills en la carpeta de usuario del agente: `~/.claude/skills/`, `~/.codex/skills/` (o `$CODEX_HOME/skills/`) o `~/.config/opencode/skills/`. **No se modifican** `CLAUDE.md`, `AGENTS.md` ni otras instrucciones globales del usuario: las reglas comunes viajan dentro de cada skill. Un manifiesto (`~/.elenia-kit/.elenia-install.json`) registra la huella de cada archivo instalado.
+
+- **Actualizar** desde una versión nueva descomprimida: agregar `--update`. Sólo reemplaza archivos de Elenia que el usuario no modificó; si encuentra uno editado, se detiene sin cambiar nada.
+- **Desinstalar:** `python3 ~/.elenia-kit/scripts/elenia.py install-skills --global --agent claude --uninstall`. Quita sólo los archivos de Elenia sin modificar; conserva los editados y avisa cuáles quedaron. El kit compartido se retira cuando no queda ningún agente registrado.
+- Perfiles, espacios de trabajo y modelos descargados no son parte de la instalación: ni se crean ni se borran con estos comandos.
+
+Para el espacio de trabajo global proponer una carpeta visible del usuario, por ejemplo `~/Documentos/Elenia` (o la equivalente del sistema), distinta de `~/.elenia-kit/`: el código y los originales periodísticos no se mezclan. Después de instalar, pedir que reinicie el agente y comprobar que descubre las skills; Codex trata las skills de usuario como experimentales según la versión.
+
 ## Prueba mínima
 
 Usar los archivos ficticios de `examples/demo-publica/`, nunca material reservado como prueba de conectividad. Para transcripción, incluir el modelo VAD aprobado que el runtime descubre localmente; si falta, resolver su descarga con autorización. Comprobar que existe salida legible, procedencia y original preservado. No presentar una prueba de OCR como prueba de transcripción ni un stub de test como ejecución real del motor. Informar estado por capacidad: probado, disponible sin prueba, bloqueado o no configurado.
 
 ## Cuando el kit se instaló dentro de otro proyecto
 
-Los comandos anteriores parten de la raíz del checkout del kit. En un proyecto instalado, el runtime está en `.elenia-kit/`: reemplazar el prefijo `python3 scripts/elenia.py` por `python3 .elenia-kit/scripts/elenia.py`. Resolver la ruta del perfil, espacio de trabajo y modelos desde el contexto real; no crear copias redundantes para hacer funcionar un ejemplo.
+Los comandos anteriores parten de la raíz del checkout del kit. En un proyecto instalado, el runtime está en `.elenia-kit/`; en una instalación global, en `~/.elenia-kit/` (Windows: `%USERPROFILE%\.elenia-kit`). Reemplazar el prefijo `python3 scripts/elenia.py` por la ruta que corresponda, por ejemplo `python3 ~/.elenia-kit/scripts/elenia.py`. Resolver la ruta del perfil, espacio de trabajo y modelos desde el contexto real; no crear copias redundantes para hacer funcionar un ejemplo.

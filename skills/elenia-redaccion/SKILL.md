@@ -4,6 +4,8 @@ description: Redactar, editar o adaptar piezas periodísticas usando un perfil c
 ---
 # Redacción con evidencia y voz propia
 
+> **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
 ## Preparar el encargo
 
 Confirmar sólo lo que falta: audiencia, formato, extensión aproximada, ángulo y entrega. Cargar perfil aprobado; distinguir regla oficial, patrón inferido y preferencia. Sin perfil, usar español claro y un formato explícito, no imitar de memoria a un medio.

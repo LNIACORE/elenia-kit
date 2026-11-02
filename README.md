@@ -17,6 +17,10 @@ Splash, video y publicación automática quedan fuera de esta versión.
 
 ## Para empezar, sin configurar a mano
 
+**Instalación recomendada para periodistas:** seguí [INSTALAR.md](INSTALAR.md). Con un ZIP y un texto para pegar, tu agente instala Elenia de forma global y queda disponible en cualquier consulta, sin tocar tus instrucciones propias.
+
+Para probar el kit dentro de su propia carpeta, sin instalarlo:
+
 1. Descargá el kit: en GitHub, botón **Code → Download ZIP** (y descomprimilo), o `git clone` si usás git. Abrí la carpeta en el agente que ya usás.
 2. Pedile lo siguiente:
 

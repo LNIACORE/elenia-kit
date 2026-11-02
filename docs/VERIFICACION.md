@@ -61,6 +61,12 @@ Las muestras técnicas incluidas son ficticias. Los datos y borradores periodís
 
 Se incorporaron rutas documentales de Perú, Colombia y Costa Rica a las ya existentes de Argentina y México. Se añadió un catálogo de medios con fecha de consulta (en la revisión de repositorio quedó reducido a LA NACION). Las cuatro pruebas nuevas revisan unicidad, cobertura declarada, desambiguación de cabeceras y existencia de archivos de referencia. No prueban APIs, precisión del fact-checking ni acceso integral a registros públicos.
 
+## Instalación global · 2 de noviembre de 2026
+
+Seis pruebas con una carpeta de usuario temporal: instalación idempotente que no toca un `CLAUDE.md` global existente; rutas de Claude Code, OpenCode y Codex (incluido `CODEX_HOME`); exigencia de `--update` ante una versión nueva; actualización que respeta archivos editados por el usuario; retiro de archivos obsoletos; desinstalación por agente que conserva el kit mientras otro agente lo use, y archivos ajenos o editados. Se comprobó además un ciclo completo instalar → repetir → desinstalar sobre el kit real en Windows 11.
+
+**No se comprobó que cada agente descubra las skills desde su carpeta de usuario.** Las rutas surgen de la documentación: la de OpenCode es oficial; la de Codex proviene de documentación del repositorio que la marca como experimental. Validar en cada agente antes de una distribución amplia.
+
 ## Portabilidad Windows · 1 de noviembre de 2026
 
 Suite ejecutada en Windows 11 Pro con Python 3.12.10: inicialmente 15 de 118 pruebas fallaban. Causas: (1) `confined_path` rechazaba toda ruta con subcarpetas porque Windows representa `Path` con `\`; (2) lecturas de texto sin `encoding="utf-8"` usaban cp1252. Tras la corrección: **119 pruebas aprobadas, 2 omitidas** por diseño en Windows (symlinks y grupos de procesos POSIX), incluida una prueba de regresión nueva para rutas anidadas y rutas relativas a unidad (`C:x`). No se probaron motores (Tesseract, whisper.cpp) en Windows ni macOS; la integración continua (`.github/workflows/tests.yml`) corre la suite en Linux, Windows y macOS.

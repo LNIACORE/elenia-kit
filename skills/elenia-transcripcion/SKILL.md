@@ -4,6 +4,8 @@ description: Transcribir grabaciones con procesamiento local, marcas de tiempo y
 ---
 # Transcripción local, no reconstrucción de lo dicho
 
+> **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
 ## Proteger y preparar
 
 Confirmar que el usuario tiene autorización editorial para trabajar con la grabación y clasificar su sensibilidad. No subir audio a servicios externos ni mostrar texto reservado a un modelo remoto sin aprobación del flujo por el medio. No confundir disponer del archivo con permiso para difundirlo.
@@ -37,4 +39,4 @@ Transcripción cruda, versión revisada si se pidió, timestamps, segmentos dudo
 
 ## Cuando el kit se instaló dentro de otro proyecto
 
-Los comandos anteriores parten de la raíz del checkout del kit. En un proyecto instalado, el runtime está en `.elenia-kit/`: reemplazar el prefijo `python3 scripts/elenia.py` por `python3 .elenia-kit/scripts/elenia.py`. Resolver la ruta del perfil, espacio de trabajo y modelos desde el contexto real; no crear copias redundantes para hacer funcionar un ejemplo.
+Los comandos anteriores parten de la raíz del checkout del kit. En un proyecto instalado, el runtime está en `.elenia-kit/`; en una instalación global, en `~/.elenia-kit/` (Windows: `%USERPROFILE%\.elenia-kit`). Reemplazar el prefijo `python3 scripts/elenia.py` por la ruta que corresponda, por ejemplo `python3 ~/.elenia-kit/scripts/elenia.py`. Resolver la ruta del perfil, espacio de trabajo y modelos desde el contexto real; no crear copias redundantes para hacer funcionar un ejemplo.

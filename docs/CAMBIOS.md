@@ -1,5 +1,14 @@
 # Cambios de la v0.1
 
+## Instalación global · 2 de noviembre de 2026
+
+- Nuevo `install-skills --global --agent claude|codex|opencode`: el kit queda en `~/.elenia-kit/` y las skills en la carpeta de usuario del agente (`~/.claude/skills/`, `~/.codex/skills/` o `$CODEX_HOME/skills/`, `~/.config/opencode/skills/`). Elenia queda disponible en cualquier consulta.
+- No modifica `CLAUDE.md`, `AGENTS.md` ni otras instrucciones globales: cada skill indica dónde leer las reglas comunes del kit.
+- Manifiesto con SHA256 por archivo: `--update` reemplaza sólo archivos no modificados y retira los que la versión nueva ya no trae; `--uninstall` quita sólo lo que instaló Elenia y conserva lo editado. Perfiles, espacios de trabajo y modelos quedan fuera.
+- `AGENTS.md` admite esta instalación global como única excepción, con pedido o confirmación del usuario.
+- Nuevo [INSTALAR.md](../INSTALAR.md) con el texto para que el periodista se lo pegue a su agente.
+- 125 pruebas aprobadas en Windows 11 (2 omitidas por plataforma); 6 nuevas para la instalación global.
+
 ## Identidad Elenia y apertura · 1 de noviembre de 2026
 
 - El kit pasa a llamarse **Elenia** y se publica como open source (MIT) desde una cuenta personal. Desarrollado en LA NACION; no es un producto oficial del diario.

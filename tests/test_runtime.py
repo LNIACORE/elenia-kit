@@ -512,5 +512,81 @@ class InstallationTests(TemporaryTest):
         self.assertEqual(target.read_text(encoding="utf-8"), "My edited skill")
 
 
+class GlobalInstallationTests(TemporaryTest):
+    bundle = InstallationTests.bundle
+
+    def setUp(self):
+        super().setUp()
+        self.home = self.root / "home"; self.home.mkdir()
+        self.src = self.bundle()
+        patcher = patch.object(elenia, "ROOT", self.src); patcher.start(); self.addCleanup(patcher.stop)
+        env = patch.dict(os.environ, {}, clear=False); env.start(); self.addCleanup(env.stop)
+        for key in ("CODEX_HOME", "XDG_CONFIG_HOME"):
+            os.environ.pop(key, None)
+
+    def test_global_install_idempotent_and_leaves_global_instructions_alone(self):
+        (self.home / ".claude").mkdir(); (self.home / ".claude/CLAUDE.md").write_text("Mis reglas", encoding="utf-8")
+        result = elenia.install_global("claude", home=self.home)
+        self.assertGreater(result["created_files"], 0)
+        self.assertFalse(result["global_instructions_modified"])
+        self.assertTrue((self.home / ".claude/skills/elenia-example/SKILL.md").is_file())
+        self.assertTrue((self.home / ".elenia-kit/scripts/elenia.py").is_file())
+        self.assertEqual((self.home / ".claude/CLAUDE.md").read_text(encoding="utf-8"), "Mis reglas")
+        again = elenia.install_global("claude", home=self.home)
+        self.assertEqual((again["created_files"], again["replaced_files"]), (0, 0))
+
+    def test_agent_folders(self):
+        elenia.install_global("opencode", home=self.home)
+        self.assertTrue((self.home / ".config/opencode/skills/elenia-example/SKILL.md").is_file())
+        os.environ["CODEX_HOME"] = str(self.root / "codex-home")
+        elenia.install_global("codex", home=self.home)
+        self.assertTrue((self.root / "codex-home/skills/elenia-example/SKILL.md").is_file())
+
+    def test_new_version_requires_update_and_spares_user_edits(self):
+        elenia.install_global("claude", home=self.home)
+        skill = self.src / "skills/elenia-example/SKILL.md"
+        skill.write_text("---\nname: elenia-example\n---\nVersion 2", encoding="utf-8")
+        with self.assertRaisesRegex(elenia.EleniaError, "--update"):
+            elenia.install_global("claude", home=self.home)
+        result = elenia.install_global("claude", update=True, home=self.home)
+        self.assertEqual(result["replaced_files"], 2)  # agent skill + copy inside ~/.elenia-kit
+        installed = self.home / ".claude/skills/elenia-example/SKILL.md"
+        self.assertIn("Version 2", installed.read_text(encoding="utf-8"))
+        installed.write_text("Editado por la periodista", encoding="utf-8")
+        skill.write_text("---\nname: elenia-example\n---\nVersion 3", encoding="utf-8")
+        with self.assertRaises(elenia.EleniaError):
+            elenia.install_global("claude", update=True, home=self.home)
+        self.assertEqual(installed.read_text(encoding="utf-8"), "Editado por la periodista")
+
+    def test_update_removes_unmodified_files_dropped_from_new_version(self):
+        extra = self.src / "skills/elenia-example/old.md"; extra.write_text("old", encoding="utf-8")
+        elenia.install_global("claude", home=self.home)
+        extra.unlink()
+        elenia.install_global("claude", update=True, home=self.home)
+        self.assertFalse((self.home / ".claude/skills/elenia-example/old.md").exists())
+
+    def test_uninstall_removes_only_unmodified_kit_files(self):
+        elenia.install_global("claude", home=self.home)
+        elenia.install_global("opencode", home=self.home)
+        mine = self.home / ".claude/skills/mi-skill/SKILL.md"; mine.parent.mkdir(parents=True); mine.write_text("mía", encoding="utf-8")
+        first = elenia.install_global("claude", uninstall=True, home=self.home)
+        self.assertFalse((self.home / ".claude/skills/elenia-example").exists())
+        self.assertTrue((self.home / ".elenia-kit").is_dir(), "opencode still needs the kit")
+        self.assertFalse(first["kit_removed"])
+        (self.home / ".elenia-kit/notas.txt").write_text("no es del kit", encoding="utf-8")
+        elenia.install_global("opencode", uninstall=True, home=self.home)
+        self.assertTrue(mine.is_file())
+        self.assertFalse((self.home / ".config/opencode/skills/elenia-example").exists())
+        self.assertTrue((self.home / ".elenia-kit/notas.txt").is_file())
+        self.assertFalse((self.home / ".elenia-kit/scripts").exists())
+        with self.assertRaises(elenia.EleniaError):
+            elenia.install_global("claude", uninstall=True, home=self.home)
+
+    def test_update_flags_require_global(self):
+        with contextlib.redirect_stderr(io.StringIO()):
+            status = elenia.main(["install-skills", "--project", str(self.root / "p"), "--agent", "claude", "--update"])
+        self.assertEqual(status, 2)
+
+
 if __name__ == "__main__":
     unittest.main()

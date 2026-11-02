@@ -922,24 +922,9 @@ def install_skills(project, agent):
     root = Path(project).expanduser().resolve()
     root.mkdir(parents=True, exist_ok=True)
     skill_dir, bridge_name = destinations[agent]
-    sources = sorted((ROOT / "skills").glob("elenia-*/SKILL.md"))
-    if not sources:
-        raise EleniaError("No se encontraron los skills canónicos. Ejecute el instalador desde la carpeta original del kit.")
-    copies = []
-    for skill in sources:
-        for path in sorted(skill.parent.rglob("*")):
-            if path.is_symlink():
-                raise EleniaError("El paquete contiene un enlace; revíselo antes de instalar.")
-            if path.is_file():
-                copies.append((path, confined_path(root, Path(skill_dir) / path.relative_to(ROOT / "skills"))))
-    for directory in ("scripts", "config", "docs", "examples", "skills", "adapters", "tests"):
-        for path in sorted((ROOT / directory).rglob("*")):
-            if path.is_file() and "__pycache__" not in path.parts and not path.is_symlink():
-                copies.append((path, confined_path(root, Path(".elenia-kit") / path.relative_to(ROOT))))
-    for filename in ("AGENTS.md", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md"):
-        path = ROOT / filename
-        if path.is_file() and not path.is_symlink():
-            copies.append((path, confined_path(root, Path(".elenia-kit") / filename)))
+    names, skills, kit = kit_sources()
+    copies = [(src, confined_path(root, Path(skill_dir) / rel)) for rel, src in skills.items()]
+    copies += [(src, confined_path(root, Path(".elenia-kit") / rel)) for rel, src in kit.items()]
     bridge = ROOT / "adapters" / agent / bridge_name
     manual_merge = False
     if bridge.is_file():
@@ -953,10 +938,157 @@ def install_skills(project, agent):
         if dest.exists() and (not dest.is_file() or dest.read_bytes() != src.read_bytes()):
             raise EleniaError(f"Instalación detenida: {dest} ya existe y es diferente. No se sobrescribió configuración.")
     created = sum(write_new(dest, src.read_bytes()) for src, dest in copies)
-    return {"project": str(root), "agent": agent, "skills": [p.parent.name for p in sources],
+    return {"project": str(root), "agent": agent, "skills": names,
             "created_files": created, "manual_bridge_merge_required": manual_merge,
             "runtime": ".elenia-kit/scripts/elenia.py", "network_used": False,
             "warning": "La copia no demuestra compatibilidad end-to-end con una versión concreta del agente. Reinicie o recargue y compruebe descubrimiento."}
+
+
+KIT_FILES = ("AGENTS.md", "README.md", "INSTALAR.md", "LICENSE", "THIRD_PARTY_NOTICES.md")
+KIT_DIRS = ("scripts", "config", "docs", "examples", "skills", "adapters", "tests")
+GLOBAL_KIT = ".elenia-kit"
+GLOBAL_MANIFEST = ".elenia-install.json"
+
+
+def global_skill_root(agent, home):
+    """User-level discovery folder of each agent. Never the agent's global instructions file."""
+    env = os.environ
+    if agent == "claude":
+        return home / ".claude" / "skills"
+    if agent == "codex":
+        return (Path(env["CODEX_HOME"]).expanduser() if env.get("CODEX_HOME") else home / ".codex") / "skills"
+    if agent == "opencode":
+        base = Path(env["XDG_CONFIG_HOME"]).expanduser() if env.get("XDG_CONFIG_HOME") else home / ".config"
+        return base / "opencode" / "skills"
+    raise EleniaError("Agente no admitido.")
+
+
+def kit_sources():
+    sources = sorted((ROOT / "skills").glob("elenia-*/SKILL.md"))
+    if not sources:
+        raise EleniaError("No se encontraron los skills canónicos. Ejecute el instalador desde la carpeta original del kit.")
+    skills, kit = {}, {}
+    for skill in sources:
+        for path in sorted(skill.parent.rglob("*")):
+            if path.is_symlink():
+                raise EleniaError("El paquete contiene un enlace; revíselo antes de instalar.")
+            if path.is_file() and "__pycache__" not in path.parts:
+                skills[path.relative_to(ROOT / "skills").as_posix()] = path
+    for directory in KIT_DIRS:
+        for path in sorted((ROOT / directory).rglob("*")):
+            if path.is_file() and "__pycache__" not in path.parts and not path.is_symlink():
+                kit[path.relative_to(ROOT).as_posix()] = path
+    for filename in KIT_FILES:
+        path = ROOT / filename
+        if path.is_file() and not path.is_symlink():
+            kit[filename] = path
+    return [p.parent.name for p in sources], skills, kit
+
+
+def replace_file(path, data):
+    """Write through a temporary sibling and an atomic rename; used only for files the manifest proves unmodified."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(f".{path.name}.elenia-tmp")
+    temp.unlink(missing_ok=True)
+    with temp.open("xb") as f:
+        f.write(data)
+    os.replace(temp, path)
+
+
+def install_global(agent, update=False, uninstall=False, home=None):
+    """Install the kit once in ~/.elenia-kit and the skills in the agent's user-level folder.
+
+    A manifest with the SHA256 of every installed file lets --update replace and
+    --uninstall remove only what the kit wrote and the user did not modify."""
+    home = Path(home).expanduser().resolve() if home else Path.home().resolve()
+    kit_root = home / GLOBAL_KIT
+    skill_root = global_skill_root(agent, home).resolve()
+    manifest_path = kit_root / GLOBAL_MANIFEST
+    manifest = read_json(manifest_path) if manifest_path.is_file() else {"schema_version": 1, "kit_files": {}, "agents": {}}
+    if uninstall:
+        return uninstall_global(agent, manifest, manifest_path, kit_root, skill_root)
+    names, skills, kit = kit_sources()
+    if kit_root.resolve() == ROOT.resolve():
+        raise EleniaError("Ejecute el instalador desde la carpeta descomprimida, no desde la copia global.")
+    previous_agent = manifest["agents"].get(agent, {}).get("files", {})
+    plan = [(kit_root, rel, src, manifest["kit_files"].get(rel)) for rel, src in kit.items()]
+    plan += [(skill_root, rel, src, previous_agent.get(rel)) for rel, src in skills.items()]
+    writes, conflicts = [], []
+    for root, rel, src, recorded in plan:
+        dest = confined_path(root, rel)
+        data = src.read_bytes()
+        if not dest.exists():
+            writes.append((dest, data, False))
+        elif not dest.is_file():
+            conflicts.append(str(dest))
+        elif dest.read_bytes() == data:
+            continue
+        elif update and recorded and sha256(dest) == recorded:
+            writes.append((dest, data, True))
+        else:
+            conflicts.append(str(dest))
+    # Files of the previous version that disappeared from the new one: removable only if unmodified.
+    stale = []
+    if update:
+        for root, old, new in ((kit_root, manifest["kit_files"], kit), (skill_root, previous_agent, skills)):
+            for rel, digest in old.items():
+                dest = confined_path(root, rel)
+                if rel not in new and dest.is_file() and sha256(dest) == digest:
+                    stale.append(dest)
+    if conflicts:
+        hint = "" if update else " Si es una versión anterior de Elenia, use --update."
+        raise EleniaError("Instalación detenida: estos archivos existen y son diferentes; no se modificó nada: "
+                          + ", ".join(conflicts[:5]) + (" …" if len(conflicts) > 5 else "") + "." + hint)
+    created = replaced = 0
+    for dest, data, existing in writes:
+        if existing:
+            replace_file(dest, data); replaced += 1
+        else:
+            write_new(dest, data); created += 1
+    for dest in stale:
+        dest.unlink()
+    manifest["kit_version"] = VERSION
+    manifest["kit_files"] = {rel: hashlib.sha256(src.read_bytes()).hexdigest() for rel, src in kit.items()}
+    manifest["agents"][agent] = {"skills_root": str(skill_root), "skills": names,
+                                 "files": {rel: hashlib.sha256(src.read_bytes()).hexdigest() for rel, src in skills.items()}}
+    replace_file(manifest_path, json_text(manifest).encode("utf-8"))
+    return {"mode": "global", "agent": agent, "kit": str(kit_root), "skills_root": str(skill_root), "skills": names,
+            "created_files": created, "replaced_files": replaced, "removed_stale_files": len(stale),
+            "runtime": str(kit_root / "scripts" / "elenia.py"), "global_instructions_modified": False, "network_used": False,
+            "warning": "Reinicie el agente para que descubra las skills. La copia no demuestra compatibilidad end-to-end con su versión."}
+
+
+def uninstall_global(agent, manifest, manifest_path, kit_root, skill_root):
+    entry = manifest["agents"].pop(agent, None)
+    if entry is None:
+        raise EleniaError(f"No hay una instalación global de Elenia registrada para {agent}. No se eliminó nada.")
+    removed, kept = 0, []
+    targets = [(skill_root, entry["files"])]
+    if not manifest["agents"]:
+        targets.append((kit_root, manifest["kit_files"]))
+    for root, files in targets:
+        for rel, digest in files.items():
+            dest = confined_path(root, rel)
+            if not dest.is_file():
+                continue
+            if sha256(dest) == digest:
+                dest.unlink(); removed += 1
+            else:
+                kept.append(str(dest))
+    for root, files in targets:
+        # Remove only folders left empty by this uninstall, deepest first.
+        for folder in sorted({confined_path(root, rel).parent for rel in files}, key=lambda p: len(p.parts), reverse=True):
+            while folder != root and folder.is_dir() and not any(folder.iterdir()):
+                folder.rmdir(); folder = folder.parent
+    if manifest["agents"]:
+        replace_file(manifest_path, json_text(manifest).encode("utf-8"))
+    else:
+        manifest_path.unlink(missing_ok=True)
+        if kit_root.is_dir() and not any(kit_root.iterdir()):
+            kit_root.rmdir()
+    return {"mode": "global", "agent": agent, "uninstalled": True, "removed_files": removed,
+            "kept_modified_files": kept, "kit_removed": not manifest["agents"] and not kit_root.exists(),
+            "note": "Perfiles, espacios de trabajo y modelos descargados no forman parte de la instalación y no se tocaron."}
 
 
 def positive_int(value):
@@ -1012,9 +1144,15 @@ def parser():
     command.add_argument("--workspace", required=True)
     command.add_argument("--artifact", required=True)
     command.add_argument("--approve-download", action="store_true")
-    command = commands.add_parser("install-skills", help="Copiar skills a un proyecto sin sobrescribir configuración")
-    command.add_argument("--project", required=True)
+    command = commands.add_parser("install-skills", help="Copiar skills a un proyecto o al usuario sin sobrescribir configuración")
+    target = command.add_mutually_exclusive_group(required=True)
+    target.add_argument("--project")
+    target.add_argument("--global", dest="global_install", action="store_true",
+                        help="Kit en ~/.elenia-kit y skills en la carpeta de usuario del agente; no modifica instrucciones globales")
     command.add_argument("--agent", choices=("codex", "claude", "opencode"), required=True)
+    action = command.add_mutually_exclusive_group()
+    action.add_argument("--update", action="store_true", help="Sólo con --global: reemplazar archivos de Elenia no modificados")
+    action.add_argument("--uninstall", action="store_true", help="Sólo con --global: quitar archivos de Elenia no modificados")
     return p
 
 
@@ -1045,6 +1183,10 @@ def main(argv=None):
             result = transcribe(args)
         elif args.command == "fetch":
             result = fetch_artifact(args.workspace, args.artifact, args.approve_download)
+        elif args.global_install:
+            result = install_global(args.agent, update=args.update, uninstall=args.uninstall)
+        elif args.update or args.uninstall:
+            raise EleniaError("--update y --uninstall sólo se admiten con --global.")
         else:
             result = install_skills(args.project, args.agent)
         if args.command == "doctor" and not args.json:

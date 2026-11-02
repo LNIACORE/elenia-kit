@@ -4,6 +4,8 @@ description: Verificar afirmaciones de una nota o borrador con inventario comple
 ---
 # Chequeo editorial, afirmación por afirmación
 
+> **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
 Adaptación propia inspirada en el método [Big If True de Verso](https://github.com/Verso-Lab/big-if-true-plugin), revisado el 1 de noviembre de 2026. No incorpora sus scripts ni ejecuta su plugin. Ver [metodo-y-alcance.md](references/metodo-y-alcance.md).
 
 ## Antes de buscar

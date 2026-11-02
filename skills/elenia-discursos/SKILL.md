@@ -4,6 +4,8 @@ description: Analizar discursos, entrevistas y declaraciones con citas literales
 ---
 # Discursos y entrevistas: de la cita a la evidencia
 
+> **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
 Aplicar a cualquier persona, gobierno, empresa u organización con el mismo criterio. La función no es confirmar una tesis política, diagnosticar intenciones ni encontrar un número prefijado de errores. Un patrón de comparación es una **hipótesis de análisis**, no un veredicto.
 
 Leer las reglas comunes del proyecto. Usar `elenia-onboarding` para el perfil y `elenia-transcripcion` cuando haya audio autorizado. Para cotejos detallados, complementar con `elenia-factcheck` y `elenia-datos`. El caso aportado y sus límites están en [caso-aportado.md](references/caso-aportado.md).
