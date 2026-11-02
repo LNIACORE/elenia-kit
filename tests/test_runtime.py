@@ -44,7 +44,7 @@ def report(available=4 * elenia.GIB, disk=10 * elenia.GIB, cores=8):
 class TemporaryTest(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="elenia-test-")
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()  # macOS /var -> /private/var; Windows 8.3 short names
         self.workspace = self.root / "workspace"
         self.profile_path = self.root / "profile.json"
         self.profile_path.write_text(json.dumps(profile()), encoding="utf-8")
@@ -407,6 +407,7 @@ class OCRTests(TemporaryTest):
         decoder.assert_not_called()
         self.assertEqual((job / "existing.txt").read_text(encoding="utf-8"), "keep")
 
+    @unittest.skipUnless(importlib.util.find_spec("PIL"), "Pillow not installed; without it OCR refuses images earlier")
     def test_text_disguised_as_image_rejected_before_tesseract(self):
         image = self.root / "not-image.png"; image.write_text("This is text, not an image.\n", encoding="utf-8")
         with patch.object(elenia, "tool_required", return_value="tesseract"), patch.object(elenia, "available_languages", return_value=["spa"]), patch.object(elenia, "run") as decoder:
