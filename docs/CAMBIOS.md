@@ -1,5 +1,14 @@
 # Cambios de la v0.1
 
+## Skills ampliadas, Python, git y fuentes de LA NACION · 3 de noviembre de 2026
+
+- Dos skills nuevas: `elenia-python` (análisis reproducible ejecutado por el agente, con recetas para variaciones, inflación acumulada, deflactar, cruces sin pérdida silenciosa, APIs del BCRA y datos.gob.ar, gráficos y exportación segura a Excel) y `elenia-git` (versiones de borradores en lenguaje de redacción; prohíbe operaciones destructivas y cualquier subida sin autorización explícita).
+- Las siete skills existentes suman descripción con frases de activación, «cuándo usarla» y derivaciones, flujo rápido, plantilla de entrega y errores frecuentes. `elenia-redaccion` agrega [formatos.md](../skills/elenia-redaccion/references/formatos.md); `elenia-onboarding`, una recorrida de capacidades y la carga del perfil de fuentes de LA NACION.
+- Nueva referencia [fuentes-ar.md](../skills/elenia-factcheck/references/fuentes-ar.md): INDEC y su calendario, Series de Tiempo de datos.gob.ar, BCRA API v4.0 (v3.0 dada de baja), cotizaciones, Boletín Oficial con URL estable de avisos, normativa, presupuesto, CNV, justicia y elecciones, y errores frecuentes en notas argentinas.
+- Nuevo `scripts/monitor_ln.py`: lee el índice `index-mer.json` y las 94 series del Monitor de Economía Real de LA NACION, descarta el sello de actualización, aplica el filtro del propio monitor, normaliza números y fechas argentinas, rechaza formatos ambiguos, conserva procedencia (URL, SHA256, fecha) y no sobrescribe archivos. Sólo lee de `especialess3.lanacion.com.ar`.
+- `config/medios.json` incorpora `source_profile` para LA NACION; `config/countries/ar.json` apunta a la nueva referencia.
+- 133 pruebas aprobadas en Windows 11 (2 omitidas por plataforma); 8 nuevas del lector del monitor, sin red.
+
 ## Instalación global · 2 de noviembre de 2026
 
 - Nuevo `install-skills --global --agent claude|codex|opencode`: el kit queda en `~/.elenia-kit/` y las skills en la carpeta de usuario del agente (`~/.claude/skills/`, `~/.codex/skills/` o `$CODEX_HOME/skills/`, `~/.config/opencode/skills/`). Elenia queda disponible en cualquier consulta.

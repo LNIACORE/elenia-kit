@@ -1,10 +1,17 @@
 ---
 name: elenia-factcheck
-description: Verificar afirmaciones de una nota o borrador con inventario completo, evidencia recién consultada y un informe trazable; usar para chequeo de hechos y revisión previa a publicar.
+description: Verificar afirmaciones de una nota, borrador, discurso o publicación con inventario completo, evidencia actual y un informe trazable por afirmación; usar para chequeo previo a publicar, "¿esto es cierto?", "chequeá las cifras" o "revisá esta nota antes de que salga".
 ---
 # Chequeo editorial, afirmación por afirmación
 
 > **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
+## Cuándo usarla y en qué modo
+
+- **Completo (por defecto):** pieza entera, tres pasadas, informe con todas las afirmaciones.
+- **Urgente:** si el periodista lo pide explícitamente por tiempo, chequear primero título, bajada, cifras y atribuciones centrales, y declarar en el informe que el resto quedó `not_researched`. Nunca presentar un chequeo urgente como completo.
+- **Derivar:** declaraciones de una persona con inventario y selección humana → `elenia-discursos`; cálculos sobre tablas → `elenia-datos` + `elenia-python`.
+- **Argentina / LA NACION:** usar [fuentes-ar.md](references/fuentes-ar.md). El monitor de economía de LA NACION sirve para orientarse rápido, pero es fuente secundaria: verificar y citar el organismo de origen.
 
 Adaptación propia inspirada en el método [Big If True de Verso](https://github.com/Verso-Lab/big-if-true-plugin), revisado el 1 de noviembre de 2026. No incorpora sus scripts ni ejecuta su plugin. Ver [metodo-y-alcance.md](references/metodo-y-alcance.md).
 
@@ -47,3 +54,22 @@ Sólo usar una ausencia como evidencia negativa si el corpus es completo para es
 ## Entrega y límites
 
 No reescribir el original en secreto. Entregar cambios sugeridos vinculados a IDs y dudas precisas para el editor o reportero. Indicar restricciones de acceso y comprobaciones pendientes. El informe no certifica publicabilidad legal ni autoriza publicación, contacto con fuentes o comentarios en un CMS.
+
+## Resumen para el periodista (además del informe)
+
+```
+Revisé <N> afirmaciones de <título> (<texto completo / fragmento>).
+⚠ Requieren corrección: <n> — <ID: qué cambiar, con qué fuente>
+? Sin resolver: <n> — <ID: qué falta y quién puede aportarlo>
+✓ Respaldadas: <n>
+No se consultó: <fuentes inaccesibles o fuera de alcance>
+Nada se publicó ni se envió a terceros.
+```
+
+## Errores frecuentes al chequear
+
+- Dar por verificada una cifra porque aparece en otros medios (probablemente copian la misma fuente).
+- Comparar con el dato de hoy una declaración de hace meses, o ignorar una revisión posterior.
+- Confundir «no encontré» con «es falso».
+- Verificar el número pero no la comparación («el más alto desde…» exige revisar toda la serie).
+- Aceptar el comunicado oficial como prueba del hecho que el propio emisor afirma.

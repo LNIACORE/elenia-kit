@@ -6,7 +6,8 @@ Registro de consulta: **2026-11-01**. Son rutas a fuentes, no conectores impleme
 
 El país del medio es un punto de partida, no el país de todos los hechos. Identificar la jurisdicción de cada afirmación y consultar su paquete: no comprobar un dato peruano con un registro colombiano porque el periodista trabaje allí. Un medio no se convierte en fuente independiente para cualquier afirmación por su prestigio o su red de alianzas.
 
-- Argentina y México: rutas abajo.
+- [Argentina](fuentes-ar.md).
+- México: rutas abajo.
 - [Perú](fuentes-pe.md).
 - [Colombia](fuentes-co.md).
 - [Costa Rica](fuentes-cr.md).
@@ -15,13 +16,7 @@ El catálogo de medios con perfil de partida está en `config/medios.json`; las 
 
 ## Argentina
 
-| Necesidad | Ruta oficial verificada | Acceso y cuidado |
-|---|---|---|
-| Precios, empleo, población, cuentas nacionales | [INDEC](https://www.indec.gob.ar/) | Publicaciones, tablas y metodologías públicas. Comparar período, cobertura y revisión. |
-| Catálogo de servicios estadísticos | [API-INDEC](https://api.indec.gob.ar/) | Catálogo público marcado beta al consultar. Abrir documentación de cada servicio; no suponer endpoint, credenciales ni cobertura. Usar publicación descargable si no hay ruta estable. |
-| Tasas, moneda, reservas, series monetarias | [BCRA](https://www.bcra.gob.ar/) | Navegar a estadísticas/catálogo o la documentación de API enlazada desde el sitio. Distinguir tasas, instrumentos y tipos de cambio. No convertir una cotización en «el dólar» sin especificar mercado/fecha. |
-| Normas y actos publicados | [Boletín Oficial](https://www.boletinoficial.gob.ar/) | El acceso automático a la portada agotó el tiempo en esta revisión; comprobar en navegador y leer el acto completo. No usar un extracto de buscador como norma vigente. |
-| Justicia electoral, resoluciones y escrutinio definitivo | [Cámara Nacional Electoral](https://www.electoral.gob.ar/nuevo/) | Identificar competencia, elección y documento. No confundir resultados provisorios con definitivos. |
+Ver [fuentes-ar.md](fuentes-ar.md): INDEC, BCRA (API v4.0), Series de Tiempo de datos.gob.ar, Boletín Oficial, normativa, justicia y elecciones, y el Monitor de Economía Real de LA NACION con su herramienta de lectura. Revisado el 2026-11-03.
 
 ## México
 

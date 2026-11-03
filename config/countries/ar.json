@@ -2,9 +2,12 @@
   "schema_version": 1,
   "country_code": "AR",
   "name": "Argentina",
-  "verified_on": "2026-11-01",
+  "verified_on": "2026-11-03",
   "language": "es",
   "status": "documentary_routes_only",
-  "reference": "skills/elenia-factcheck/references/fuentes-latam.md",
-  "note": "Rutas iniciales de fuentes, no APIs implementadas. Abrir y verificar el documento relevante, su fecha, cobertura y condiciones de acceso. La jurisdicción depende de la afirmación, no sólo del medio."
+  "reference": "skills/elenia-factcheck/references/fuentes-ar.md",
+  "note": "Rutas iniciales de fuentes, no APIs implementadas. Abrir y verificar el documento relevante, su fecha, cobertura y condiciones de acceso. La jurisdicción depende de la afirmación, no sólo del medio.",
+  "tools": [
+    "scripts/monitor_ln.py"
+  ]
 }

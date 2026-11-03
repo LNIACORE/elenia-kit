@@ -43,7 +43,7 @@ Para todas las salidas: originales preservados, procedencia y revisión humana. 
 
 ## Módulo de discursos
 
-La séptima skill `elenia-discursos`, sus plantillas, ejemplos y `scripts/validate_discourse.py` se copian con `install-skills` a los tres destinos, sin nuevas dependencias. El validador usa sólo Python estándar y no busca fuentes ni instala herramientas. En una instalación existente, el instalador conserva archivos distintos: comparar la actualización y aplicarla con autorización, no borrar perfiles ni forzar sobrescrituras.
+La skill `elenia-discursos`, sus plantillas, ejemplos y `scripts/validate_discourse.py` se copian con `install-skills` a los tres destinos, sin nuevas dependencias. El validador usa sólo Python estándar y no busca fuentes ni instala herramientas. En una instalación existente, el instalador conserva archivos distintos: comparar la actualización y aplicarla con autorización, no borrar perfiles ni forzar sobrescrituras.
 
 Prueba local desde la raíz del kit:
 

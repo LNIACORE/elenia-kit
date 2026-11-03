@@ -15,7 +15,28 @@
       "official_url": "https://www.lanacion.com.ar/",
       "editorial_language": "es",
       "source_pack_status": "curated",
-      "note": "Homónimo: La Nación de Costa Rica (nacion.com) es otro medio. Desambiguar por URL o país."
+      "note": "Homónimo: La Nación de Costa Rica (nacion.com) es otro medio. Desambiguar por URL o país.",
+      "source_profile": {
+        "reference": "skills/elenia-factcheck/references/fuentes-ar.md",
+        "verified_on": "2026-11-03",
+        "own_data": [
+          {
+            "name": "Monitor de Economía Real",
+            "page": "https://www.lanacion.com.ar/economia/datos-economia-argentina-segui-monitor-la-nacion-nid2284152/",
+            "index_json": "https://especialess3.lanacion.com.ar/monitor-economia-real/data/index-mer.json",
+            "tool": "scripts/monitor_ln.py",
+            "role": "secondary",
+            "note": "Compilación de LA NACION; citar el organismo de origen de cada serie."
+          }
+        ],
+        "official_sources": [
+          "INDEC",
+          "BCRA API v4.0",
+          "Series de Tiempo datos.gob.ar",
+          "Boletín Oficial",
+          "Normativa argentina.gob.ar / InfoLEG"
+        ]
+      }
     }
   ]
 }

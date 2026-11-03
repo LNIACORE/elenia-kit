@@ -1,10 +1,24 @@
 ---
 name: elenia-transcripcion
-description: Transcribir grabaciones con procesamiento local, marcas de tiempo y revisión de citas sin inventar palabras ni hablantes; usar para entrevistas y audios periodísticos autorizados.
+description: Transcribir entrevistas, conferencias y audios periodísticos con procesamiento local, marcas de tiempo y revisión de citas, sin inventar palabras ni hablantes; usar cuando pidan "desgrabá esta entrevista", "transcribí el audio", "buscá en qué minuto dijo…" o "sacame las citas".
 ---
 # Transcripción local, no reconstrucción de lo dicho
 
 > **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
+## Cuándo usarla
+
+- **Sí:** entrevistas propias, conferencias, audios autorizados, videos con audio descargado legítimamente.
+- **Derivar:** analizar lo que dijo una persona y contrastarlo → `elenia-discursos`; usar las citas en una nota → `elenia-redaccion`.
+- **Audio largo:** calibrar primero con 60–120 segundos (`calibrate`) para estimar tiempo y elegir modelo; avisar al periodista cuánto va a tardar antes de lanzar una corrida de horas.
+
+## Flujo rápido
+
+1. Confirmar autorización y sensibilidad; todo local.
+2. Diagnóstico y modelo (`base` por defecto; `small` si el equipo lo permite).
+3. Corrida nueva con VAD; revisar duración procesada y huecos.
+4. Escuchar cada tramo citable con unos segundos de contexto.
+5. Entregar cruda + revisada + tabla de citas con minuto y estado.
 
 ## Proteger y preparar
 
@@ -36,6 +50,22 @@ El runtime produce una corrida nueva, conserva original y procedencia y no publi
 ## Entrega
 
 Transcripción cruda, versión revisada si se pidió, timestamps, segmentos dudosos y límite de identificación de voces. Indicar qué se escuchó efectivamente y qué sigue pendiente. Para usar una frase en una nota, entregar también el timestamp y estado de revisión de la cita. Si no hay audio accesible, trabajar con el texto como **transcripción aportada no cotejada**, nunca afirmar que se escuchó.
+
+## Plantilla de citas para la nota
+
+```
+| Minuto | Cita (literal)                             | Escuchada | Nota                                  |
+|--------|--------------------------------------------|-----------|---------------------------------------|
+| 12:41  | «No vamos a subir las tarifas este año»    | sí        | Voz 1 = entrevistado (conf. usuario)  |
+| 27:05  | «[palabra dudosa: cuatrocientos] millones» | no        | Ruido; escuchar antes de usar         |
+```
+
+## Errores frecuentes
+
+- Cifras y negaciones mal reconocidas (un «no» que desaparece, «catorce» por «cuarenta»).
+- Nombres propios «corregidos» al más parecido conocido.
+- Texto inventado durante silencios o música (por eso VAD y revisión).
+- Atribuir una frase a una persona sin haber separado las voces.
 
 ## Cuando el kit se instaló dentro de otro proyecto
 

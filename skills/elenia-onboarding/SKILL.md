@@ -1,10 +1,16 @@
 ---
 name: elenia-onboarding
-description: Configurar un asistente periodístico con perfil del periodista y del medio, investigación pública de estilo y preparación técnica guiada; usar al comenzar o al actualizar ese perfil.
+description: Configurar Elenia por primera vez o actualizar el perfil: datos del periodista y su medio, investigación pública de estilo y firmas, preparación técnica del equipo y una recorrida de lo que el kit puede hacer; usar al empezar, con "configurá mi perfil", "¿qué podés hacer?" o "preparame la compu".
 ---
 # Conocer a la persona, al medio y al equipo
 
 > **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
+## Cuándo usarla
+
+- **Primera vez**, o cuando cambia el medio, la sección o el equipo.
+- Cuando el periodista pregunta qué puede hacer Elenia: responder con la recorrida de abajo, no con una lista técnica.
+- Si el medio es **LA NACION**, cargar además el perfil de fuentes en `config/medios.json` (`source_profile`) y [fuentes-ar.md](../elenia-factcheck/references/fuentes-ar.md): rutas oficiales verificadas y el Monitor de Economía Real con su herramienta de lectura.
 
 ## Conversación inicial
 
@@ -51,3 +57,16 @@ No afirmar que algo funciona porque existe un ejecutable: probarlo con el materi
 ## Entrega
 
 Perfil confirmado o claramente pendiente; fuentes que lo sustentan; capacidades disponibles; bloqueos concretos y una primera tarea sugerida. No publicar nada ni convertir la autorización de preparación en permiso para procesar material reservado en terceros.
+
+## Recorrida de capacidades (para cerrar el onboarding)
+
+Presentarla en lenguaje de redacción, con un ejemplo de pedido por línea:
+
+- **Chequear una nota:** «Revisá esta nota antes de que salga».
+- **Analizar un discurso:** «Armá el inventario de lo que dijo el ministro y esperá que elija».
+- **Escribir o editar:** «Pasá este material a una nota de 4.000 caracteres».
+- **Datos:** «¿Cuánto subió la canasta básica en un año?» · «Bajá la serie de inflación del monitor».
+- **Documentos y audio:** «Sacá el texto de este PDF escaneado» · «Desgrabá esta entrevista».
+- **Versiones:** «Guardá esta versión» · «¿Qué cambié desde ayer?».
+
+Cerrar con una primera tarea sugerida usando el material ficticio del kit, y recordar que nada se publica ni se envía sin su autorización.

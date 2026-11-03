@@ -13,6 +13,10 @@ Desarrollado en LA NACION (Argentina). Es un proyecto personal de código abiert
 - **Edición:** aplica el perfil sin cambiar silenciosamente cifras, citas, hechos ni grados de certeza.
 - **Datos, OCR y desgrabación:** procedimientos revisables, originales preservados y herramientas locales. Las rutas de fuentes iniciales cubren Argentina, México, Perú, Colombia y Costa Rica. El onboarding trae LA NACION como perfil de partida y acepta cualquier otro medio; los otros países aún no tienen rutas curadas.
 
+- **Análisis con Python sin programar:** el agente escribe y ejecuta scripts reproducibles (variaciones, inflación acumulada, deflactar, cruces, gráficos) y entrega la respuesta en lenguaje de nota.
+- **Versiones con git sin jerga:** «guardá esta versión», «¿qué cambié desde ayer?», «volvé a la de las 10», sin riesgo de perder trabajo ni subir nada sin permiso.
+- **Fuentes de Argentina para LA NACION:** INDEC, BCRA (API v4.0), Series de Tiempo de datos.gob.ar, Boletín Oficial y normativa, verificadas el 3/11/2026, más el **Monitor de Economía Real de LA NACION** con `scripts/monitor_ln.py`, que baja y normaliza sus 94 series diarias y mensuales.
+
 Splash, video y publicación automática quedan fuera de esta versión.
 
 ## Para empezar, sin configurar a mano

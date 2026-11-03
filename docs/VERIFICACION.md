@@ -41,7 +41,7 @@ Descarga real y verificación SHA256 del modelo español por el ejecutor del kit
 
 ## Agentes
 
-Se entregan siete skills con frontmatter validado, referencias y adaptadores de descubrimiento para Codex, Claude Code y OpenCode. El instalador conserva configuración existente y copia una versión de soporte del kit al proyecto.
+Se entregan nueve skills con frontmatter validado, referencias y adaptadores de descubrimiento para Codex, Claude Code y OpenCode. El instalador conserva configuración existente y copia una versión de soporte del kit al proyecto.
 
 **No se ha realizado una sesión end-to-end en los tres agentes comerciales.** Copiar los archivos o pasar un test de instalación no prueba invocación automática, permisos, búsquedas web ni compatibilidad de todas sus versiones.
 
@@ -60,6 +60,14 @@ Las muestras técnicas incluidas son ficticias. Los datos y borradores periodís
 ## Ampliación regional de esta revisión
 
 Se incorporaron rutas documentales de Perú, Colombia y Costa Rica a las ya existentes de Argentina y México. Se añadió un catálogo de medios con fecha de consulta (en la revisión de repositorio quedó reducido a LA NACION). Las cuatro pruebas nuevas revisan unicidad, cobertura declarada, desambiguación de cabeceras y existencia de archivos de referencia. No prueban APIs, precisión del fact-checking ni acceso integral a registros públicos.
+
+## Fuentes de Argentina y monitor de LA NACION · 3 de noviembre de 2026
+
+Se comprobó el acceso, sin cuentas ni tokens, a INDEC (sitio y calendario), Series de Tiempo de datos.gob.ar (serie y búsqueda), BCRA API v4.0 (listado y serie de reservas) y cotizaciones v1.0, Boletín Oficial (primera sección con URLs de avisos), Normativa, InfoLEG, Presupuesto Abierto, CNV, Cámara Nacional Electoral y estadísticas de CABA y Provincia de Buenos Aires. La API del BCRA v3.0 respondió 410. economia.gob.ar presentó un certificado HTTPS vencido: no se forzó la conexión. La búsqueda avanzada del Boletín Oficial redirigió a una página de error en la prueba automática.
+
+El Monitor de Economía Real de LA NACION se inspeccionó en el navegador: su iframe carga `index-mer.json` y un JSON por indicador. `scripts/monitor_ln.py` se ejecutó contra los 94 indicadores en vivo sin errores de interpretación; uno (`venta_de_autos_usados`) declara una columna que no existe y la herramienta lo informa con las columnas disponibles. Las 8 pruebas automáticas usan datos de muestra, no la red.
+
+**No se verificó** el contenido económico de las series contra cada organismo de origen, ni el comportamiento de las skills nuevas en sesiones reales de los tres agentes.
 
 ## Instalación global · 2 de noviembre de 2026
 

@@ -1,10 +1,16 @@
 ---
 name: elenia-datos
-description: Examinar tablas y CSV para periodismo, limpiar copias con trazabilidad, reproducir cálculos y detectar límites antes de escribir hallazgos; usar en análisis y chequeo de cifras.
+description: Pensar y revisar datos para periodismo: qué pregunta responde una tabla, unidades, denominadores, comparabilidad, limpieza trazable y límites antes de escribir un hallazgo; usar con CSV, Excel, series económicas o cifras de una nota ("¿esto es mucho?", "¿subió o bajó?", "¿se puede comparar?").
 ---
 # De la tabla al hallazgo defendible
 
 > **Reglas comunes y ubicación del kit.** Antes de actuar, leer `AGENTS.md` del kit: en el kit fuente está en la raíz; instalado en un proyecto, en `.elenia-kit/AGENTS.md`; instalado de forma global, en `~/.elenia-kit/AGENTS.md` (Windows: `%USERPROFILE%\.elenia-kit\AGENTS.md`). Los comandos `python3 scripts/elenia.py` de esta skill se ejecutan desde esa misma ubicación del kit.
+
+## Cuándo usarla
+
+- **Sí:** antes de calcular o escribir con una tabla; para revisar si una cifra se puede comparar; para entender qué mide un indicador.
+- **Ejecutar el cálculo:** `elenia-python` (scripts reproducibles, cruces, gráficos).
+- **Contrastar con fuentes externas:** `elenia-factcheck`. Para Argentina, [fuentes-ar.md](../elenia-factcheck/references/fuentes-ar.md) incluye INDEC, BCRA, datos.gob.ar y el monitor de LA NACION, con sus trampas de formato.
 
 ## Abrir sin perder el original
 
@@ -35,3 +41,23 @@ Si el hallazgo se compara con fuentes externas, usar `elenia-factcheck` y la rut
 Dar respuesta en lenguaje periodístico, tabla pequeña de resultados con unidades, metodología reproducible, anomalías y límites. Exportar una copia limpia si se solicita, sin alterar el original. Un gráfico debe incluir título descriptivo, unidad, período, cobertura, fuente y nota pertinente; evitar escalas que exageran diferencias.
 
 Antes de sugerir un título, probar que resume el cálculo correcto. No «verificar» un dato real a partir del expediente sintético de demostración.
+
+## Ficha rápida del dato (completar antes de escribir)
+
+```
+Indicador: <nombre exacto del organismo>       Organismo: <quién lo produce>
+Qué mide: <unidad: personas, hogares, $, %, índice base …>
+Período y frecuencia: <mes/trimestre/semestre; último disponible>
+Cobertura: <nacional, 31 aglomerados, CABA …>   Revisiones: <sí/no, cuándo>
+Comparación usada: <mensual, interanual, acumulada; nominal o real>
+Cifra para la nota: <valor + unidad + período>  Límite principal: <…>
+```
+
+## Trampas frecuentes en datos argentinos
+
+- Inflación mensual, interanual y acumulada son cifras distintas; núcleo ≠ nivel general.
+- Pesos nominales de años distintos no se comparan sin deflactar.
+- Pobreza e indigencia: semestrales, urbanas, por personas u hogares.
+- Desestacionalizada vs original: la comparación contra el mes anterior va con la desestacionalizada.
+- Dólar: decir siempre cuál (oficial mayorista, minorista, MEP, CCL, blue) y en qué fecha.
+- Detalle completo en [fuentes-ar.md](../elenia-factcheck/references/fuentes-ar.md#errores-frecuentes-en-notas-argentinas).
