@@ -65,7 +65,7 @@ Presentarla en lenguaje de redacción, con un ejemplo de pedido por línea:
 - **Chequear una nota:** «Revisá esta nota antes de que salga».
 - **Analizar un discurso:** «Armá el inventario de lo que dijo el ministro y esperá que elija».
 - **Escribir o editar:** «Pasá este material a una nota de 4.000 caracteres».
-- **Datos:** «¿Cuánto subió la canasta básica en un año?» · «Bajá la serie de inflación del monitor».
+- **Datos:** «¿Cuánto subió la canasta básica en un año?» · «Bajá la serie de inflación del monitor» · «Traé del INDEC la última pobreza por región» (requiere token personal del INDEC).
 - **Documentos y audio:** «Sacá el texto de este PDF escaneado» · «Desgrabá esta entrevista».
 - **Versiones:** «Guardá esta versión» · «¿Qué cambié desde ayer?».
 

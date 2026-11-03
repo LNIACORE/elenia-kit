@@ -10,6 +10,7 @@ description: Pensar y revisar datos para periodismo: qué pregunta responde una 
 
 - **Sí:** antes de calcular o escribir con una tabla; para revisar si una cifra se puede comparar; para entender qué mide un indicador.
 - **Ejecutar el cálculo:** `elenia-python` (scripts reproducibles, cruces, gráficos).
+- **Traer el dato oficial del INDEC:** `elenia-indec` (API con token personal, procedencia y cita).
 - **Contrastar con fuentes externas:** `elenia-factcheck`. Para Argentina, [fuentes-ar.md](../elenia-factcheck/references/fuentes-ar.md) incluye INDEC, BCRA, datos.gob.ar y el monitor de LA NACION, con sus trampas de formato.
 
 ## Abrir sin perder el original

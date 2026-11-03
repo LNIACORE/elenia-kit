@@ -41,7 +41,7 @@ Descarga real y verificación SHA256 del modelo español por el ejecutor del kit
 
 ## Agentes
 
-Se entregan nueve skills con frontmatter validado, referencias y adaptadores de descubrimiento para Codex, Claude Code y OpenCode. El instalador conserva configuración existente y copia una versión de soporte del kit al proyecto.
+Se entregan diez skills con frontmatter validado, referencias y adaptadores de descubrimiento para Codex, Claude Code y OpenCode. El instalador conserva configuración existente y copia una versión de soporte del kit al proyecto.
 
 **No se ha realizado una sesión end-to-end en los tres agentes comerciales.** Copiar los archivos o pasar un test de instalación no prueba invocación automática, permisos, búsquedas web ni compatibilidad de todas sus versiones.
 
@@ -60,6 +60,12 @@ Las muestras técnicas incluidas son ficticias. Los datos y borradores periodís
 ## Ampliación regional de esta revisión
 
 Se incorporaron rutas documentales de Perú, Colombia y Costa Rica a las ya existentes de Argentina y México. Se añadió un catálogo de medios con fecha de consulta (en la revisión de repositorio quedó reducido a LA NACION). Las cuatro pruebas nuevas revisan unicidad, cobertura declarada, desambiguación de cabeceras y existencia de archivos de referencia. No prueban APIs, precisión del fact-checking ni acceso integral a registros públicos.
+
+## INDEC por API · 3 de noviembre de 2026
+
+Se revisó el código de indec-api-skill (commit `0a95ccc`) antes de adaptarlo; no se ejecutó el original. La spec pública `https://api.indec.gob.ar/api/openapi?v=2` respondió sin token y se incluyó en el kit; tiene las mismas 19 tablas y columnas que el snapshot del repositorio original. Sin token, `/v1/ipc_nacional` respondió 401, como documenta el INDEC. Se ejecutaron en vivo `tablas`, `columnas`, la sugerencia de nombres (`canasta_crianza`, `Periodo`), el aviso de token faltante y `comparar-spec` (sin cambios estructurales).
+
+**No se hizo ninguna consulta de datos con token**: no hubo cuenta del INDEC en esta prueba. La paginación, los reintentos, las etiquetas de comercio exterior, el rechazo de redirecciones y el resguardo del token se probaron con un servidor simulado (13 pruebas). Validar con un token real antes de distribuir: una consulta mensual (`ipc_nacional`), una semestral (`pobreza_eph`) y una de comercio exterior con `--etiquetas`.
 
 ## Fuentes de Argentina y monitor de LA NACION · 3 de noviembre de 2026
 

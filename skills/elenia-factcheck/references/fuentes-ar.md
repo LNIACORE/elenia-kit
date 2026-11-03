@@ -40,7 +40,7 @@ Trampas que la herramienta resuelve y que hay que explicar al periodista:
 | Precios, actividad, empleo, pobreza, comercio, cuentas nacionales | [INDEC](https://www.indec.gob.ar/) | Informe técnico del período + cuadros descargables. Citar el informe, no la portada. Revisar base, cobertura regional y revisiones. |
 | Fechas de publicación | [Calendario INDEC](https://www.indec.gob.ar/indec/web/Calendario-Fecha-0) | Saber si ya salió el dato; el corte temporal del chequeo es la fecha de la declaración. |
 | Series de tiempo oficiales por API | [Series de Tiempo · datos.gob.ar](https://apis.datos.gob.ar/series/api/series/?ids=148.3_INIVELNAL_DICI_M_26&last=3&format=json) | API pública sin token. Buscar IDs con `https://apis.datos.gob.ar/series/api/search/?q=desocupacion`. Puede **ir atrasada** respecto del INDEC (al 03/11 el IPC nivel llegaba a agosto y el monitor ya tenía septiembre): comparar con el informe vigente. |
-| Catálogo INDEC | [API-INDEC](https://api.indec.gob.ar/) | Marcado beta; abrir la documentación de cada servicio. |
+| Catálogo INDEC por API | [API-INDEC](https://api.indec.gob.ar/) | 19 tablas oficiales (IPC, canastas, EPH, EMAE, IPI, salarios, comercio exterior, población). Requiere **token personal** que gestiona el periodista. Usar la skill `elenia-indec` y `scripts/indec_api.py`, que valida columnas, pagina, cuenta signos convencionales (`s` = secreto estadístico) y guarda procedencia. Marcado beta. |
 | CABA | [Estadística Ciudad](https://www.estadisticaciudad.gob.ar/) | IPC CABA y datos porteños; no mezclar con el IPC nacional. |
 | Provincia de Buenos Aires | [Dirección Provincial de Estadística](https://www.estadistica.ec.gba.gov.ar/) | Datos provinciales con su propia metodología. |
 

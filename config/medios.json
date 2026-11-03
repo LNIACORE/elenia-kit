@@ -30,7 +30,7 @@
           }
         ],
         "official_sources": [
-          "INDEC",
+          "INDEC (API con token personal: skills/elenia-indec, scripts/indec_api.py)",
           "BCRA API v4.0",
           "Series de Tiempo datos.gob.ar",
           "Boletín Oficial",

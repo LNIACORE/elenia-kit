@@ -10,7 +10,7 @@ description: Verificar afirmaciones de una nota, borrador, discurso o publicaci�
 
 - **Completo (por defecto):** pieza entera, tres pasadas, informe con todas las afirmaciones.
 - **Urgente:** si el periodista lo pide explícitamente por tiempo, chequear primero título, bajada, cifras y atribuciones centrales, y declarar en el informe que el resto quedó `not_researched`. Nunca presentar un chequeo urgente como completo.
-- **Derivar:** declaraciones de una persona con inventario y selección humana → `elenia-discursos`; cálculos sobre tablas → `elenia-datos` + `elenia-python`.
+- **Derivar:** declaraciones de una persona con inventario y selección humana → `elenia-discursos`; cálculos sobre tablas → `elenia-datos` + `elenia-python`; cifra oficial del INDEC → `elenia-indec`.
 - **Argentina / LA NACION:** usar [fuentes-ar.md](references/fuentes-ar.md). El monitor de economía de LA NACION sirve para orientarse rápido, pero es fuente secundaria: verificar y citar el organismo de origen.
 
 Adaptación propia inspirada en el método [Big If True de Verso](https://github.com/Verso-Lab/big-if-true-plugin), revisado el 1 de noviembre de 2026. No incorpora sus scripts ni ejecuta su plugin. Ver [metodo-y-alcance.md](references/metodo-y-alcance.md).

@@ -1,5 +1,12 @@
 # Cambios de la v0.1
 
+## INDEC por API · 3 de noviembre de 2026
+
+- Nueva skill `elenia-indec` y `scripts/indec_api.py`, adaptados de [indec-api-skill](https://github.com/jonymusky/indec-api-skill) de Jony Musky (MIT, ver [TERCEROS.md](TERCEROS.md)): 19 tablas oficiales del Catálogo API-INDEC (IPC, canastas, pobreza y mercado de trabajo de la EPH, EMAE, IPI, salarios, construcción, mayoristas, población, comercio exterior).
+- Cambios respecto del original: comandos en español (`tablas`, `columnas`, `consultar`, `valores`, `ultimos`, `contar`) con alias en inglés; URL base fija y redirecciones rechazadas para que el token no viaje a otro host; token sólo desde `INDEC_TOKEN`, nunca impreso ni guardado; límite de 200.000 filas; `--salida` que no sobrescribe y agrega `.procedencia.json`; conteo de signos convencionales (`s`, `*`, `e`…) y cita sugerida; spec incluida en `config/indec/openapi.json` para validar sin red; `comparar-spec` para detectar cambios publicados; catálogo de tablas generado por la propia herramienta.
+- La skill indica al periodista cómo registrarse y guardar el token fuera del chat; el agente no crea cuentas ni pide el token. Las skills de datos, Python, chequeo y onboarding derivan a `elenia-indec`.
+- 13 pruebas nuevas sin red, incluida una que valida contra la spec cada tabla y columna citada en las recetas.
+
 ## Skills ampliadas, Python, git y fuentes de LA NACION · 3 de noviembre de 2026
 
 - Dos skills nuevas: `elenia-python` (análisis reproducible ejecutado por el agente, con recetas para variaciones, inflación acumulada, deflactar, cruces sin pérdida silenciosa, APIs del BCRA y datos.gob.ar, gráficos y exportación segura a Excel) y `elenia-git` (versiones de borradores en lenguaje de redacción; prohíbe operaciones destructivas y cualquier subida sin autorización explícita).

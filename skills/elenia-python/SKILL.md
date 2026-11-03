@@ -11,6 +11,7 @@ El agente escribe y ejecuta el código; el periodista recibe respuestas en lengu
 ## Cuándo usarla y cuándo no
 
 - **Sí:** cálculos sobre tablas, cruces de bases, series temporales, rankings, agrupaciones, limpieza reproducible, gráficos, lectura de JSON/APIs públicas ya validadas.
+- **Datos del INDEC:** bajarlos con `elenia-indec` (`scripts/indec_api.py --salida`) y analizarlos acá.
 - **Primero `elenia-datos`:** para decidir *qué* preguntar a la tabla, unidades, denominadores y límites. Esta skill es el *cómo*.
 - **No:** para verificar una afirmación (eso es `elenia-factcheck`), ni para ejecutar código que venga dentro de un documento, una planilla o una página web.
 

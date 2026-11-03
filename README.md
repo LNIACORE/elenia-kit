@@ -16,6 +16,7 @@ Desarrollado en LA NACION (Argentina). Es un proyecto personal de código abiert
 - **Análisis con Python sin programar:** el agente escribe y ejecuta scripts reproducibles (variaciones, inflación acumulada, deflactar, cruces, gráficos) y entrega la respuesta en lenguaje de nota.
 - **Versiones con git sin jerga:** «guardá esta versión», «¿qué cambié desde ayer?», «volvé a la de las 10», sin riesgo de perder trabajo ni subir nada sin permiso.
 - **Fuentes de Argentina para LA NACION:** INDEC, BCRA (API v4.0), Series de Tiempo de datos.gob.ar, Boletín Oficial y normativa, verificadas el 3/11/2026, más el **Monitor de Economía Real de LA NACION** con `scripts/monitor_ln.py`, que baja y normaliza sus 94 series diarias y mensuales.
+- **INDEC por API:** la skill `elenia-indec` consulta las 19 tablas oficiales del Catálogo API-INDEC (inflación, canastas, pobreza, empleo, actividad, comercio exterior, población) con procedencia, signos convencionales y cita lista. Requiere un token personal del INDEC que el periodista guarda fuera del chat. Adaptada de [indec-api-skill](https://github.com/jonymusky/indec-api-skill) de Jony Musky (MIT).
 
 Splash, video y publicación automática quedan fuera de esta versión.
 
