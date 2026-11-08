@@ -8,7 +8,7 @@ Desarrollado en LA NACION (Argentina). Es un proyecto personal de código abiert
 
 - **Onboarding editorial:** identifica medio, sección, firma, formatos y preferencias. El agente investiga políticas públicas y notas del medio; busca notas del autor y continúa si no encuentra. Separa reglas publicadas, patrones inferidos y preferencias antes de pedir aprobación.
 - **Preparación técnica:** diagnostica el equipo, comprueba herramientas y prepara una selección de modelos locales. Las instalaciones y descargas requieren autorización; el agente realiza los pasos técnicos.
-- **Discursos y entrevistas (ejemplo central):** inventario con citas literales, tiempos conocidos o anclas de párrafo, selección humana, hipótesis neutrales y evidencia fechada/versionada. El caso real aportado es [Milei en la Universidad Torcuato Di Tella](examples/discursos/caso-real-ditella/LEEME.md); hay un fragmento documentado, no un chequeo completo.
+- **Discursos y entrevistas:** inventario con citas literales, tiempos conocidos o anclas de párrafo, selección humana, hipótesis neutrales y evidencia fechada/versionada. Se prueba con un [ejercicio sintético](examples/discursos/LEEME.md), sin atribuir frases a personas reales.
 - **Chequeo:** afirmaciones concretas, fuentes abiertas y evidencia verificable; distingue errores, respaldo limitado y asuntos no resueltos.
 - **Edición:** aplica el perfil sin cambiar silenciosamente cifras, citas, hechos ni grados de certeza.
 - **Datos, OCR y desgrabación:** procedimientos revisables, originales preservados y herramientas locales. Las rutas de fuentes iniciales cubren Argentina, México, Perú, Colombia y Costa Rica. El onboarding trae LA NACION como perfil de partida y acepta cualquier otro medio; los otros países aún no tienen rutas curadas.
@@ -42,17 +42,17 @@ El agente debe leer `adapters/` y usar los comandos reales de `python3 scripts/e
 - `adapters/`: instrucciones particulares de cada agente.
 - `scripts/`: diagnóstico, perfil y ejecutores locales.
 - `config/`: catálogo acotado de herramientas y artefactos.
-- `examples/discursos/`: caso central real documentado parcialmente y ejercicio sintético separado. `demo-publica/` conserva la prueba ficticia anterior como regresión; `pruebas-tecnicas/` contiene fixtures de OCR y silencio.
+- `examples/discursos/`: ejercicio sintético del módulo de discursos. `demo-publica/` conserva la prueba ficticia anterior como regresión; `pruebas-tecnicas/` contiene fixtures de OCR y silencio.
 - `tests/`: pruebas automatizadas.
 - `docs/`: criterios editoriales, seguridad, alcance y verificación.
 
-## Ejemplo central: discurso → inventario → selección → evidencia
+## Discursos: inventario → selección → evidencia
 
-El [módulo de discursos](docs/DISCURSOS.md) adapta el documento metodológico aportado por el usuario sin ejecutar su pedido interno de construir una app. La demostración usa el [video elegido](https://www.youtube.com/watch?v=6KxqkedLOO4), no traslada las frases de la entrevista distinta mencionada en aquel documento.
+El [módulo de discursos](docs/DISCURSOS.md) arma un inventario de citas literales ancladas, espera la selección del editor y recién después contrasta, con evidencia fechada y versionada. Para probarlo:
 
 > Usá elenia-discursos con este material. Conservá el original, separá hechos, proyecciones, promesas y opiniones, y armá un inventario con citas exactas. No inventes minutos. Mostrame qué se pudo comprobar y qué falta; esperá mi selección antes de investigar. El informe debe distinguir datos disponibles al hablar de revisiones posteriores y quedar pendiente de revisión humana, sin publicación automática.
 
-El validador adicional `scripts/validate_discourse.py` comprueba anclajes y consistencia del expediente; no verifica la verdad ni autentica quién aprobó. La ficha real conserva tiempos exactos `null`: el enlace 43:36 señala un segmento de subtítulos, no precisión de palabra. El [ejercicio sintético](examples/discursos/ejercicio-sintetico/transcripcion.txt) prueba estructura y salvaguardas sin atribuir frases inventadas a una persona real.
+El validador `scripts/validate_discourse.py` comprueba anclajes y consistencia del expediente; no verifica la verdad ni autentica quién aprobó. El [ejercicio sintético](examples/discursos/ejercicio-sintetico/transcripcion.txt) prueba estructura y salvaguardas sin atribuir frases inventadas a una persona real.
 
 ## Qué significa «local»
 
